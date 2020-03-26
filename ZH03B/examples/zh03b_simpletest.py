@@ -36,12 +36,12 @@ while test_status is not "ERROR":
    print ("QA set")
    time.sleep(.05)
    PM1, PM25, PM10 = QAReadSample()
-   print ("QA readsample", PM1, PM10, PM25)
+   print ("QA readsample", PM1, PM25, PM10)
    print (" Set back to stream ")
    SetStream()
    time.sleep(.05)
    PM1, PM25, PM10 = ReadSample()
-   print ("Stream sample", PM1, PM10, PM25)
+   print ("Stream sample", PM1, PM25, PM10)
 
 
    print (" Set to QA, fan OFF, get return code and sleep 10 seconds ")
@@ -57,22 +57,22 @@ while test_status is not "ERROR":
    time.sleep(10)
 
    PM1, PM25, PM10 = QAReadSample()
-   print( "Q&A take reading", PM1, PM10, PM25)
+   print( "Q&A take reading", PM1, PM25, PM10)
  
    time.sleep(2)
 
    PM1, PM25, PM10 = QAReadSample()
-   print( "Q&A take reading", PM1, PM10, PM25)
+   print( "Q&A take reading", PM1, PM25, PM10)
 
    time.sleep(2)
 
    PM1, PM25, PM10 = QAReadSample()
-   print( "Q&A take reading", PM1, PM10, PM25)
+   print( "Q&A take reading", PM1, PM25, PM10)
 
    SetStream()
    time.sleep(.1)
    PM1, PM25, PM10 = ReadSample()
-   print ("ReadSample output - loop end", PM1, PM10, PM25)
+   print ("ReadSample output - loop end", PM1, PM25, PM10)
    time.sleep (.5)
 
    loopcount = loopcount + 1
