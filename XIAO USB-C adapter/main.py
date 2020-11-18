@@ -46,15 +46,8 @@ def DormantMode(pwr_status):
     if pwr_status == "sleep":
        uart.reset_input_buffer()
        uart.write( b"\xFF\x01\xA7\x01\x00\x00\x00\x00\x57")
-       response = (hexlify(uart.read(7)))
        response = (hexlify(uart.read(3)))
-       if response == b'ffa701':
-          uart.reset_input_buffer()
-          return ("FanOFF")
-       else:
-          uart.reset_input_buffer()
-          return ("FanERROR")
-
+       return("Fan OFF")
 
     #  Turn fan on
     #
@@ -65,10 +58,10 @@ def DormantMode(pwr_status):
        response = (hexlify(uart.read(3)))
        if response == b'ffa701':
           uart.reset_input_buffer()
-          return ("FanON")
-       else:
+          return ("Fan ON")
+       elif response == b'ffa700':
           uart.reset_input_buffer()
-          return ("FanERROR")
+          return ("Fan ERRoR?")
 
 
 ########
@@ -92,9 +85,10 @@ def ReadSample():
         continue
 
 test_status = 'run'
-
-PM1, PM25, PM10 = ReadSample()
+DormantMode(test_status)
+SetStream()
 print("ReadSample output - First iteration")
+PM1,PM25,PM10=ReadSample()
 print(PM1)
 print(PM25)
 print(PM10)
@@ -106,50 +100,45 @@ while test_status is not "ERROR":
 
     print("LoopCount=", loopcount)
     SetQA()
-    print("QA set")
-    time.sleep(.05)
+    print("Interrogate mode set")
+    time.sleep(1)
     PM1, PM25, PM10 = QAReadSample()
-    print("QA readsample", PM1, PM25, PM10)
-    print(" Set back to stream ")
+    print("Interrogate - readsample", PM1, PM25, PM10)
+    print(" Set back to streaming samples ")
     SetStream()
-    time.sleep(.05)
+    time.sleep(1)
+    
     PM1, PM25, PM10 = ReadSample()
-    print("Stream sample", PM1, PM25, PM10)
+    print(PM1, PM25, PM10)
 
-    print(" Set to QA, fan OFF, get return code and sleep 10 seconds ")
+    print(" Set to QA, fan OFF, sleep 5 seconds")
     test_status = DormantMode("sleep")
     print(test_status)
+    time.sleep(5)
 
-    time.sleep(10)
-
-    print(" Set to QA, fan ON ,get return code and sleep 10 seconds  ")
+    print(" Set to QA, fan ON , sleep 5 seconds")
     test_status = DormantMode("run")
     print(test_status)
-
-    time.sleep(10)
+    time.sleep(5)
 
     PM1, PM25, PM10 = QAReadSample()
-    print("Q&A take reading", PM1, PM25, PM10)
+    print("Take single reading", PM1, PM25, PM10)
 
     time.sleep(2)
 
     PM1, PM25, PM10 = QAReadSample()
-    print("Q&A take reading", PM1, PM25, PM10)
+    print("Take single reading", PM1, PM25, PM10)
 
     time.sleep(2)
 
     PM1, PM25, PM10 = QAReadSample()
-    print("Q&A take reading", PM1, PM25, PM10)
+    print("Take single reading", PM1, PM25, PM10)
 
     SetStream()
-    time.sleep(.1)
+    time.sleep(1)
     PM1, PM25, PM10 = ReadSample()
     print("ReadSample output - loop end", PM1, PM25, PM10)
-    time.sleep(.5)
+    time.sleep(1)
 
     loopcount = loopcount + 1
     
-########
-#
-#  End File
-#
