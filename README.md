@@ -5,6 +5,7 @@ CircuitPython library for ZH03B Particle sensor
 
    Some users want the binary output of the sensor decoded into printable ASCII characters for immediate use.
    The XIAO board provides a suitable ZH03B to USB-C bridge for those users at a low cost.
+   https://wiki.seeedstudio.com/Seeeduino-XIAO/
    
    ### versions:
    _Adafruit CircuitPython 5.3.1 on 2020-07-13; Seeeduino XIAO with samd21g18_
